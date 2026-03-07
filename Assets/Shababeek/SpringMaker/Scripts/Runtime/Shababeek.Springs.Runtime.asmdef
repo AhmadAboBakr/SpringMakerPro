@@ -1,0 +1,20 @@
+{
+    "name": "Shababeek.Springs.Runtime",
+    "rootNamespace": "Shababeek.Springs",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.shababeek.reactivevars",
+            "expression": "",
+            "define": "SHABABEEK_REACTIVE_VARS"
+        }
+    ],
+    "noEngineReferences": false
+}
