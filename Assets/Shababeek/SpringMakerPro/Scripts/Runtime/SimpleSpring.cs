@@ -11,6 +11,8 @@ namespace Shababeek.Springs
         [SerializeField, Tooltip("Height of the spring along the Y axis")]
         private float height = 2f;
 
+        private float _lastHeight;
+
         /// <summary>
         /// Gets or sets the spring height
         /// </summary>
@@ -19,7 +21,6 @@ namespace Shababeek.Springs
             get => height;
             set
             {
-                if (Mathf.Approximately(height, value)) return;
                 height = value;
                 MarkDirty();
             }
@@ -43,6 +44,18 @@ namespace Shababeek.Springs
                     t * height,
                     taperRadius * Mathf.Sin(angle));
             }
+        }
+
+        protected override bool CheckExternalChanges()
+        {
+            return base.CheckExternalChanges()
+                || !Mathf.Approximately(height, _lastHeight);
+        }
+
+        protected override void SnapshotExternalState()
+        {
+            base.SnapshotExternalState();
+            _lastHeight = height;
         }
 
         protected override void OnValidate()

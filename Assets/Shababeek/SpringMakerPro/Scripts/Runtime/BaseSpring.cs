@@ -31,6 +31,10 @@ namespace Shababeek.Springs
         /// </summary>
         protected bool isDirty = true;
 
+        private float _lastRadius;
+        private int _lastWindings;
+        private int _lastPointsPerWinding;
+
         /// <summary>
         /// Fires after spring points are recalculated
         /// </summary>
@@ -46,7 +50,6 @@ namespace Shababeek.Springs
             get => radius;
             set
             {
-                if (Mathf.Approximately(radius, value)) return;
                 radius = value;
                 MarkDirty();
             }
@@ -60,7 +63,6 @@ namespace Shababeek.Springs
             get => pointsPerWinding;
             set
             {
-                if (pointsPerWinding == value) return;
                 pointsPerWinding = value;
                 MarkDirty();
             }
@@ -74,7 +76,6 @@ namespace Shababeek.Springs
             get => windings;
             set
             {
-                if (windings == value) return;
                 windings = value;
                 MarkDirty();
             }
@@ -147,14 +148,26 @@ namespace Shababeek.Springs
         }
 
         /// <summary>
-        /// Override to detect changes outside serialized fields (e.g. transform movement)
+        /// Detects changes to serialized fields made outside property setters (e.g. Unity Animator).
+        /// Subclasses should override and combine with base to detect their own fields.
         /// </summary>
-        protected virtual bool CheckExternalChanges() => false;
+        protected virtual bool CheckExternalChanges()
+        {
+            return !Mathf.Approximately(radius, _lastRadius)
+                || windings != _lastWindings
+                || pointsPerWinding != _lastPointsPerWinding;
+        }
 
         /// <summary>
-        /// Override to snapshot external state after recalculation (e.g. store current transform positions)
+        /// Snapshots current field values for external change detection.
+        /// Subclasses should override and call base to snapshot their own fields.
         /// </summary>
-        protected virtual void SnapshotExternalState() { }
+        protected virtual void SnapshotExternalState()
+        {
+            _lastRadius = radius;
+            _lastWindings = windings;
+            _lastPointsPerWinding = pointsPerWinding;
+        }
 
         /// <summary>
         /// Evaluates the taper multiplier at a normalized position
@@ -179,6 +192,17 @@ namespace Shababeek.Springs
         #endregion
 
         #region Unity Callbacks
+
+        protected virtual void LateUpdate()
+        {
+            if (NeedsRecalculation)
+            {
+                isDirty = false;
+                SnapshotExternalState();
+                CalculatePoints();
+                OnSpringUpdated?.Invoke(controlPoints);
+            }
+        }
 
         protected virtual void OnValidate()
         {

@@ -4,9 +4,9 @@
 
 - [x] Create scene `Demos/SpringMakerDemo.unity`
 - [x] Set up a clean skybox / solid dark background
-- [ ] Add a ground plane with a subtle grid material
-- [ ] Place a directional light + ambient settings that show off the springs well
-- [ ] Add a free-look camera (Cinemachine or simple orbit script) so users can explore
+- [x] Add a ground plane with a subtle grid material
+- [x] Place a directional light + ambient settings that show off the springs well
+- [x] Add a free-look camera (Cinemachine or simple orbit script) so users can explore
 
 ---
 

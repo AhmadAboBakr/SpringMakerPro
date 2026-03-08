@@ -109,6 +109,12 @@ namespace Shababeek.Springs
                 BuildMesh(spring.ControlPoints);
         }
 
+        private void LateUpdate()
+        {
+            if (spring != null && spring.NeedsRecalculation)
+                BuildMesh(spring.ControlPoints);
+        }
+
         private void OnValidate()
         {
             sides = Mathf.Max(3, sides);

@@ -59,6 +59,12 @@ namespace Shababeek.Springs
                 RefreshLine();
         }
 
+        private void LateUpdate()
+        {
+            if (spring != null && spring.NeedsRecalculation)
+                RefreshLine();
+        }
+
         #endregion
 
         #region Public API

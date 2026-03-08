@@ -17,6 +17,10 @@ namespace Shababeek.Springs
         [SerializeField, Tooltip("End control point of the curved path")]
         private Vector3 endPoint = new Vector3(4f, 0f, 0f);
 
+        private Vector3 _lastStartPoint;
+        private Vector3 _lastMiddlePoint;
+        private Vector3 _lastEndPoint;
+
         #region Public API
 
         /// <summary>
@@ -27,7 +31,6 @@ namespace Shababeek.Springs
             get => startPoint;
             set
             {
-                if (startPoint == value) return;
                 startPoint = value;
                 MarkDirty();
             }
@@ -41,7 +44,6 @@ namespace Shababeek.Springs
             get => middlePoint;
             set
             {
-                if (middlePoint == value) return;
                 middlePoint = value;
                 MarkDirty();
             }
@@ -55,7 +57,6 @@ namespace Shababeek.Springs
             get => endPoint;
             set
             {
-                if (endPoint == value) return;
                 endPoint = value;
                 MarkDirty();
             }
@@ -113,6 +114,22 @@ namespace Shababeek.Springs
         {
             return 2f * (1f - t) * (middlePoint - startPoint)
                  + 2f * t * (endPoint - middlePoint);
+        }
+
+        protected override bool CheckExternalChanges()
+        {
+            return base.CheckExternalChanges()
+                || startPoint != _lastStartPoint
+                || middlePoint != _lastMiddlePoint
+                || endPoint != _lastEndPoint;
+        }
+
+        protected override void SnapshotExternalState()
+        {
+            base.SnapshotExternalState();
+            _lastStartPoint = startPoint;
+            _lastMiddlePoint = middlePoint;
+            _lastEndPoint = endPoint;
         }
 
         #region Gizmos

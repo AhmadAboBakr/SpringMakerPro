@@ -147,6 +147,7 @@ namespace Shababeek.Springs
 
         protected override bool CheckExternalChanges()
         {
+            if (base.CheckExternalChanges()) return true;
             if (t1 == null || t2 == null) return false;
             return t1.position != _snapshotP1
                 || t2.position != _snapshotP2
@@ -156,6 +157,7 @@ namespace Shababeek.Springs
 
         protected override void SnapshotExternalState()
         {
+            base.SnapshotExternalState();
             if (t1 == null || t2 == null) return;
             _snapshotP1 = t1.position;
             _snapshotP2 = t2.position;
