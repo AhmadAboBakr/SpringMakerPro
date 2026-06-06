@@ -5,7 +5,7 @@ Procedural spring generation toolkit for Unity. Create helical, curved, path-bas
 ## Requirements
 
 - Unity 2021.3 or later
-- Built-in Render Pipeline or URP (glow shader provided for both)
+- Built-in Render Pipeline or URP (shaders provided for both)
 
 ## Quick Start
 
@@ -17,9 +17,9 @@ Procedural spring generation toolkit for Unity. Create helical, curved, path-bas
 
 **SimpleSpring** — A helical coil along the local Y axis. Configure `Height`, `Windings`, `Radius`, and `PointsPerWinding`.
 
-**CurvedSpring** — A coil that follows a quadratic Bézier curve defined by three editable control points (`StartPoint`, `MiddlePoint`, `EndPoint`). Drag the handles directly in the Scene view.
+**CurvedSpring** — A coil that follows a quadratic Bezier curve defined by three editable control points (`StartPoint`, `MiddlePoint`, `EndPoint`). Drag the handles directly in the Scene view.
 
-**TransformSpring** — A coil that follows a cubic Bézier curve between two Transform references. The spring automatically updates when either transform moves or rotates. `DirectionDistance` controls how far the Bézier handles extend.
+**TransformSpring** — A coil that follows a cubic Bezier curve between two Transform references. The spring automatically updates when either transform moves or rotates. `DirectionDistance` controls how far the Bezier handles extend.
 
 **PathSpring** — A coil that follows a Catmull-Rom spline with an arbitrary number of control points. Supports closed loops via `ClosedPath` and adjustable spline tension via `Smoothing` (0 = uniform, 0.5 = centripetal, 1 = chordal).
 
@@ -37,7 +37,9 @@ All spring types share `Windings`, `Radius`, `PointsPerWinding`, and `TaperCurve
 
 ## Shaders
 
-**Shababeek/SciFi Spring Glow** — Additive glow shader with pulsing, UV scrolling, Fresnel, and noise-based energy effects. Works well with LineRendererSpring. Available for both Built-in RP and URP.
+**Shababeek/SciFi Spring Glow** — Additive glow shader with pulsing, UV scrolling, Fresnel, and noise-based energy effects. Works well with both LineRendererSpring and SpringMeshGenerator. Available for Built-in RP (`SciFiSpringGlow.shader`) and URP (`SciFiSpringGlow_URP.shader`).
+
+**Shababeek/Spring Line (URP)** — A gradient line shader designed for LineRendererSpring in URP projects. Features start/end color gradient, edge glow with configurable width and intensity, animated energy flow, pulsing, and fBm noise crackling. Supports both additive and alpha blending modes via `SpringLine_URP.shader`.
 
 ## Taper Curve
 
@@ -80,35 +82,42 @@ If you have the [ReactiveVars](https://github.com/Shababeek/ReactiveVars) packag
 ## Folder Structure
 
 ```
-SpringMaker/
-├── Editor/                          # Custom inspectors and scene handles
-│   ├── Shababeek.Springs.Editor.asmdef
-│   ├── BaseSpringEditor.cs
-│   ├── SimpleSpringEditor.cs
-│   ├── CurvedSpringEditor.cs
-│   ├── TransformSpringEditor.cs
-│   ├── LineRendererSpringEditor.cs
-│   └── SpringMeshGeneratorEditor.cs
-├── Runtime/                         # Core components and shaders
-│   ├── Shababeek.Springs.Runtime.asmdef
-│   ├── BaseSpring.cs
-│   ├── SimpleSpring.cs
-│   ├── CurvedSpring.cs
-│   ├── TransformSpring.cs
-│   ├── PathSpring.cs
-│   ├── LineRendererSpring.cs
-│   ├── SpringMeshGenerator.cs
-│   ├── SpringAnimator.cs
-│   ├── Integrations/
-│   │   └── ReactiveVarsSpringDriver.cs
+SpringMakerPro/
+├── Scripts/
+│   ├── Editor/                          # Custom inspectors and scene handles
+│   │   ├── Shababeek.Springs.Editor.asmdef
+│   │   ├── BaseSpringEditor.cs
+│   │   ├── SimpleSpringEditor.cs
+│   │   ├── CurvedSpringEditor.cs
+│   │   ├── TransformSpringEditor.cs
+│   │   ├── LineRendererSpringEditor.cs
+│   │   └── SpringMeshGeneratorEditor.cs
+│   └── Runtime/                         # Core components
+│       ├── Shababeek.Springs.Runtime.asmdef
+│       ├── BaseSpring.cs
+│       ├── SimpleSpring.cs
+│       ├── CurvedSpring.cs
+│       ├── TransformSpring.cs
+│       ├── PathSpring.cs
+│       ├── LineRendererSpring.cs
+│       ├── SpringMeshGenerator.cs
+│       ├── SpringAnimator.cs
+│       ├── Integrations/
+│       │   └── ReactiveVarsSpringDriver.cs
+│       └── Scripts/
+│           └── SpringTextureGenerator.cs
+├── Shaders/                             # Spring shaders
+│   ├── SciFiSpringGlow.shader           # Built-in RP
+│   └── URP/
+│       ├── SciFiSpringGlow_URP.shader   # URP glow
+│       └── SpringLine_URP.shader        # URP line gradient
+├── Demo/                                # Demo scene and assets
+│   ├── DemoScene.unity
 │   ├── Scripts/
-│   │   └── SpringTextureGenerator.cs
+│   │   └── OrbitCamera.cs
+│   ├── Materials/
 │   ├── Shaders/
-│   │   ├── SciFiSpringGlow.shader
-│   │   └── URP/
-│   │       └── SciFiSpringGlow_URP.shader
-│   └── Materials/
-│       └── SciFiSpringMaterial.mat
+│   └── Animations/
 ├── Documentation/
 │   └── SpringMakerPro_Manual.pdf
 └── README.md
@@ -120,4 +129,4 @@ For bug reports and feature requests, contact **support@shababeek.com**.
 
 ## License
 
-Copyright © 2026 Shababeek. All rights reserved. See LICENSE for details.
+Copyright 2026 Shababeek. All rights reserved. See LICENSE for details.
